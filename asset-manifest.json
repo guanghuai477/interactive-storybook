@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/interactive-storybook/static/css/main.54c06cc8.css",
-    "main.js": "/interactive-storybook/static/js/main.e7e5afad.js",
-    "index.html": "/interactive-storybook/index.html",
-    "main.54c06cc8.css.map": "/interactive-storybook/static/css/main.54c06cc8.css.map",
-    "main.e7e5afad.js.map": "/interactive-storybook/static/js/main.e7e5afad.js.map"
+    "main.css": "./static/css/main.54c06cc8.css",
+    "main.js": "./static/js/main.53ab8dfd.js",
+    "index.html": "./index.html",
+    "main.54c06cc8.css.map": "./static/css/main.54c06cc8.css.map",
+    "main.53ab8dfd.js.map": "./static/js/main.53ab8dfd.js.map"
   },
   "entrypoints": [
     "static/css/main.54c06cc8.css",
-    "static/js/main.e7e5afad.js"
+    "static/js/main.53ab8dfd.js"
   ]
 }
