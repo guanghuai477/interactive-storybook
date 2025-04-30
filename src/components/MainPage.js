@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes, css } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100vw;
@@ -170,19 +171,146 @@ const FunctionButton = styled.img`
 const Function1 = styled(FunctionButton)`
   left: 186px;
   bottom: 214px;
+  transform: rotate(5deg) scale(1.2);
+  filter: drop-shadow(0 0 8px rgba(255, 150, 180, 1));
+
+  &:active {
+    transform: rotate(5deg) scale(0.967);
+    filter: none;
+    opacity: 0.7;
+  }
 `;
 
 const Function2 = styled(FunctionButton)`
   left: 330px;
-  bottom: 205px;
+  bottom: 197px;
+  transform: rotate(5deg) scale(0.9);
 `;
 
 const Function3 = styled(FunctionButton)`
   left: 470px;
-  bottom: 192px;
+  bottom: 184px;
+  transform: rotate(5deg) scale(0.9);
+`;
+
+const SideButton = styled.img`
+  position: absolute;
+  left: 50px;
+  width: 120px;
+  height: auto;
+  z-index: 2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+`;
+
+const TopSideButton = styled(SideButton)`
+  top: calc(40% + 70px);
+  transform: translateY(-50%) scale(1.2);
+  filter: drop-shadow(0 0 10px rgba(255, 192, 203, 0.6));
+
+  &:active {
+    transform: translateY(-50%) scale(1.15);
+    filter: none;
+  }
+`;
+
+const BottomSideButton = styled(SideButton)`
+  top: calc(60% + 20px);
+  left: 40px;
+  transform: translateY(-50%) rotate(4deg);
+  transform-origin: center center;
+
+  &:active {
+    transform: translateY(-50%) rotate(4deg) scale(0.95);
+  }
+`;
+
+const RightSideButton = styled(SideButton)`
+  top: calc(60% + 20px);
+  right: 100px;
+  left: auto;
+  transform: translateY(-50%) rotate(4deg);
+  transform-origin: center center;
+
+  &:active {
+    transform: translateY(-50%) rotate(4deg) scale(0.95);
+  }
+`;
+
+const FadeOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  opacity: ${props => props.visible ? 1 : 0};
+  pointer-events: none;
+  transition: opacity 0.5s;
+  z-index: 9999;
+`;
+
+const swingAnimation = keyframes`
+  0% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(-5deg);
+  }
+`;
+
+const LuluCharacter = styled.img`
+  position: absolute;
+  right: 60px;
+  bottom: 40px;
+  width: 180px;
+  height: auto;
+  z-index: 2;
+  animation: ${swingAnimation} 3s ease-in-out infinite;
+  transform-origin: bottom center;
+`;
+
+const BackButton = styled.img`
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  width: 144px;
+  height: auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 function MainPage() {
+  const navigate = useNavigate();
+  const [fade, setFade] = useState(false);
+
+  const handleTransition = (to) => {
+    setFade(true);
+    setTimeout(() => {
+      navigate(to);
+    }, 500);
+  };
+
+  const handleTheme1Click = () => {
+    handleTransition('/select-book');
+  };
+
+  const handleBackClick = () => {
+    handleTransition('/');
+  };
+
   return (
     <Container>
       <BackgroundImage src={process.env.PUBLIC_URL + '/images/功能主页.png'} alt="Main Page Background" />
@@ -194,22 +322,23 @@ function MainPage() {
         src={process.env.PUBLIC_URL + '/images/功能主页-人物.png'} 
         alt="Character" 
       />
-      <Function1
-        src={process.env.PUBLIC_URL + '/images/功能主页-功能1.png'}
-        alt="Function 1"
+      <TopSideButton
+        src={process.env.PUBLIC_URL + '/images/功能主页-按钮1.png'}
+        alt="Side Button 1"
       />
-      <Function2
-        src={process.env.PUBLIC_URL + '/images/功能主页-功能2.png'}
-        alt="Function 2"
+      <BottomSideButton
+        src={process.env.PUBLIC_URL + '/images/功能主页-按钮2.png'}
+        alt="Side Button 2"
       />
-      <Function3
-        src={process.env.PUBLIC_URL + '/images/功能主页-功能3.png'}
-        alt="Function 3"
+      <RightSideButton
+        src={process.env.PUBLIC_URL + '/images/功能主页-按钮3.png'}
+        alt="Side Button 3"
       />
       <ThemeGrid>
         <Theme1 
           src={process.env.PUBLIC_URL + '/images/功能主页-主题1.png'} 
-          alt="Theme 1" 
+          alt="Theme 1"
+          onClick={handleTheme1Click}
         />
         <Theme2 
           src={process.env.PUBLIC_URL + '/images/功能主页-主题2.png'} 
@@ -224,6 +353,28 @@ function MainPage() {
           alt="Theme 4" 
         />
       </ThemeGrid>
+      <Function1
+        src={process.env.PUBLIC_URL + '/images/功能主页-功能1.png'}
+        alt="Function 1"
+      />
+      <Function2
+        src={process.env.PUBLIC_URL + '/images/功能主页-功能2.png'}
+        alt="Function 2"
+      />
+      <Function3
+        src={process.env.PUBLIC_URL + '/images/功能主页-功能3.png'}
+        alt="Function 3"
+      />
+      <BackButton
+        src={process.env.PUBLIC_URL + '/images/全局-返回.png'}
+        alt="Back to Landing Page"
+        onClick={handleBackClick}
+      />
+      <LuluCharacter
+        src={process.env.PUBLIC_URL + '/images/全局-lulu.png'}
+        alt="Lulu Character"
+      />
+      <FadeOverlay visible={fade} />
     </Container>
   );
 }

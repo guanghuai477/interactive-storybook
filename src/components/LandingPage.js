@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100vw;
@@ -85,12 +86,52 @@ const HintText = styled.div`
   }
 `;
 
+const FadeOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  opacity: ${props => props.visible ? 1 : 0};
+  pointer-events: none;
+  transition: opacity 0.5s;
+  z-index: 9999;
+`;
+
 function LandingPage() {
+  const navigate = useNavigate();
+  const [fade, setFade] = useState(false);
+
+  const handleTransition = () => {
+    setFade(true);
+    setTimeout(() => {
+      navigate('/main');
+    }, 500);
+  };
+
+  const handleClick = () => {
+    handleTransition();
+  };
+
+  useEffect(() => {
+    const handleWheel = (event) => {
+      if (event.deltaY > 0) {
+        handleTransition();
+      }
+    };
+    window.addEventListener('wheel', handleWheel);
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, [navigate]);
+
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <BackgroundImage src={process.env.PUBLIC_URL + '/images/首页.png'} alt="Lead Me Landing Page" />
       <ScrollWheel />
       <HintText>Scroll down to start</HintText>
+      <FadeOverlay visible={fade} />
     </Container>
   );
 }
