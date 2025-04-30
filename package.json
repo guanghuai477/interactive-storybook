@@ -2,7 +2,7 @@
   "name": "interactive-storybook",
   "version": "1.0.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://guanghuai477.github.io/interactive-storybook",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
